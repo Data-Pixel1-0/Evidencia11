@@ -5,8 +5,6 @@ const InventarioDataPixel = () => {
   const [productos, setProductos] = useState([])
   const API_URL = 'http://localhost:8080/api/productos' // URL de tu backend
 
-  // 1. Operación GET: Listar datos
-  // Muestra los productos que el robot ha escaneado
   const obtenerProductos = async () => {
     try {
       const response = await axios.get(API_URL)
@@ -16,8 +14,6 @@ const InventarioDataPixel = () => {
     }
   }
 
-  // 2. Operación POST: Crear datos
-  // Simula el envío de un nuevo producto detectado por el sistema
   const agregarProducto = async (nuevo) => {
     try {
       await axios.post(API_URL, nuevo)
