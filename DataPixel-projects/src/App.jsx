@@ -4,12 +4,18 @@ import RobotControl from './components/RobotControl'
 
 function App() {
   return (
-    <div>
-      <h1>Panel de Control Data Pixel</h1>
-      <LoginForm />
-      <hr />
-      <RobotControl />
+    <div className="main-container">
+      <h1>Data Pixel</h1>
+
+      <div className="card-professional">
+        <LoginForm />
+      </div>
+
+      <div className="card-professional">
+        <RobotControl nombreRobot="Pixel-Bot 01" id="RX-2026" />
+      </div>
     </div>
   )
 }
+
 export default App
