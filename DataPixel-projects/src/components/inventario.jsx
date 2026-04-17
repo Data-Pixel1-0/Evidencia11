@@ -23,8 +23,6 @@ const InventarioDataPixel = () => {
     }
   }
 
-  // 3. Operación PATCH/PUT: Actualizar datos
-  // Modifica la cantidad de un producto existente
   const actualizarStock = async (id, nuevaCantidad) => {
     try {
       await axios.patch(`${API_URL}/${id}`, { cantidad: nuevaCantidad })
