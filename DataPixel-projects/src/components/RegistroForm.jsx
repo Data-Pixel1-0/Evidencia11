@@ -1,96 +1,131 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 
 const RegistroForm = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
     password: '',
-    rol: 'Cliente' // Rol por defecto
-  });
+    tipo: 'Cliente',
+  })
+  const navigate = useNavigate()
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Datos registrados:", formData);
-    alert(`Usuario ${formData.nombre} registrado como ${formData.rol}`);
-  };
+  const handleRegistro = (e) => {
+    e.preventDefault()
+    // Aquí guardarías en tu base de datos real
+    alert('¡Cuenta creada con éxito!')
+    navigate('/') // Vuelve al login
+  }
 
   return (
-    <div className="card-professional">
-      <h1 className="title-datapixel">Data Pixel</h1>
-      <h2 style={{ marginBottom: '10px' }}>Crear Cuenta</h2>
-      
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <div style={{ textAlign: 'left' }}>
-          <label>Nombre Completo:</label>
+    <div
+      style={{
+        background: '#1a202c',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+      }}
+    >
+      <h1 style={{ fontSize: '3rem', marginBottom: '20px' }}></h1>
+
+      <div
+        style={{
+          background: '#2d3748',
+          padding: '40px',
+          borderRadius: '15px',
+          width: '100%',
+          maxWidth: '450px',
+        }}
+      >
+        <h2 style={{ textAlign: 'center', marginBottom: '25px' }}>Crear Cuenta</h2>
+
+        <form
+          onSubmit={handleRegistro}
+          style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}
+        >
           <input
-            type="text"
-            name="nombre"
-            placeholder="Tu nombre"
-            className="input-field"
-            onChange={handleChange}
+            placeholder="Nombre Completo"
+            style={{
+              padding: '12px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#1a202c',
+              color: 'white',
+            }}
+            onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
             required
           />
-        </div>
-
-        <div style={{ textAlign: 'left' }}>
-          <label>Correo electrónico:</label>
           <input
             type="email"
-            name="email"
-            placeholder="ejemplo@correo.com"
-            className="input-field"
-            onChange={handleChange}
+            placeholder="Correo electrónico"
+            style={{
+              padding: '12px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#1a202c',
+              color: 'white',
+            }}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
           />
-        </div>
-
-        <div style={{ textAlign: 'left' }}>
-          <label>Contraseña:</label>
           <input
             type="password"
-            name="password"
-            placeholder="********"
-            className="input-field"
-            onChange={handleChange}
+            placeholder="Contraseña"
+            style={{
+              padding: '12px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#1a202c',
+              color: 'white',
+            }}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
           />
-        </div>
 
-        <div style={{ textAlign: 'left' }}>
-          <label>Rol del Usuario:</label>
-          <select 
-            name="rol" 
-            className="input-field" 
-            onChange={handleChange}
-            style={{ width: '100%', padding: '10px', borderRadius: '4px', background: '#2d3748', color: 'white' }}
+          <label>Tipo de Usuario</label>
+          <select
+            style={{
+              padding: '12px',
+              borderRadius: '8px',
+              border: 'none',
+              background: '#1a202c',
+              color: 'white',
+            }}
+            onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}
           >
-            <option value="Administrador">Administrador</option>
-            <option value="Empleado">Empleado</option>
             <option value="Cliente">Cliente</option>
+            <option value="Admin">Administrador</option>
           </select>
-        </div>
 
-        <button type="submit" className="btn-primary" style={{ marginTop: '10px' }}>
-          REGISTRARSE
-        </button>
-      </form>
+          <button
+            type="submit"
+            style={{
+              padding: '12px',
+              background: '#48bb78',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+          >
+            Registrarme
+          </button>
+        </form>
 
-      {/* AQUÍ ESTÁ EL ARREGLO DE LA NAVEGACIÓN */}
-      <div style={{ marginTop: '20px' }}>
-        <p style={{ color: '#a0aec0' }}>
-          ¿Ya tienes cuenta? <Link to="/" style={{ color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold' }}>Inicia sesión</Link>
+        <p style={{ textAlign: 'center', marginTop: '20px', color: '#a0aec0' }}>
+          ¿Ya tienes cuenta?{' '}
+          <Link to="/" style={{ color: '#3b82f6', textDecoration: 'none' }}>
+            Inicia sesión
+          </Link>
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RegistroForm;
+export default RegistroForm

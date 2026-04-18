@@ -1,15 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const Profile = () => {
-  // Datos simulados
-  const user = {
-    nombre: 'Kenner',
+  // Estado para los datos del usuario
+  const [user, setUser] = useState({
+    nombre: 'Cargando...',
     rol: 'Desarrollador Full Stack',
-    email: 'Kenner@sena.edu.co',
+    email: '',
     ubicacion: 'Colombia, Caribe',
     estado: 'Activo',
-  }
+  })
+
+  useEffect(() => {
+    // 1. Jalamos lo que guardó el Login en el disco del navegador
+    const storedData = localStorage.getItem('userData')
+
+    if (storedData) {
+      const parsedData = JSON.parse(storedData)
+
+      // 2. Actualizamos el estado con los datos reales
+      setUser({
+        ...user,
+        // Buscamos el nombre de varias formas por si el Login mandó 'user' o 'nombre'
+        nombre: parsedData.nombre || parsedData.user || parsedData.usuario || 'Usuario Admin',
+        email: parsedData.email || 'admin@datapixel.com',
+        rol: parsedData.rol || 'Administrador de Sistema',
+      })
+    }
+  }, [])
 
   return (
     <div
@@ -22,7 +40,7 @@ const Profile = () => {
         border: '1px solid #2d3748',
       }}
     >
-      {/* Sidebar Lateral (Igual a Dashboard y Settings) */}
+      {/* Sidebar Lateral Original */}
       <div
         style={{
           width: '220px',
@@ -61,7 +79,7 @@ const Profile = () => {
         <header
           style={{ marginBottom: '30px', borderBottom: '1px solid #2d3748', paddingBottom: '10px' }}
         >
-          <h2>Perfil de Usuario</h2>
+          <h2 style={{ color: 'white' }}>Perfil de Usuario</h2>
           <p style={{ color: '#a0aec0' }}>Información personal y del sistema</p>
         </header>
 
@@ -72,6 +90,7 @@ const Profile = () => {
             borderRadius: '15px',
             overflow: 'hidden',
             maxWidth: '600px',
+            border: '1px solid #4a5568',
           }}
         >
           {/* Banner decorativo */}
@@ -92,14 +111,14 @@ const Profile = () => {
                 top: '-50px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'center', // Corregido: sin paréntesis raros
                 fontSize: '2.5rem',
               }}
             >
               👤
             </div>
 
-            <div style={{ marginTop: '50px' }}>
+            <div style={{ marginTop: '50px', color: 'white' }}>
               <h3 style={{ fontSize: '1.8rem', margin: '0' }}>{user.nombre}</h3>
               <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
                 {user.rol}
