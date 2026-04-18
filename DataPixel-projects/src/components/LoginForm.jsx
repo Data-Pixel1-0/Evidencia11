@@ -1,46 +1,53 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Importamos el navegador
 
 const LoginForm = () => {
-  // Manejo de estado para el formulario [cite: 83, 89]
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // 2. Inicializamos la función
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCredentials({ ...credentials, [name]: value }); 
-  }; // <-- Faltaba esta llave
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
+  const handleLogin = (e) => {
+    e.preventDefault();
     
-    if (!credentials.email || !credentials.password) {
-      setError('Todos los campos son obligatorios');
-      return;
+    // Aquí simulamos la validación. 
+    // Si el usuario le da al botón, lo mandamos al Dashboard.
+    if (email !== '' && password !== '') {
+      alert("¡Bienvenido a Data Pixel!");
+      navigate('/dashboard'); // 3. ¡Aquí ocurre la redirección!
+    } else {
+      alert("Por favor, llena todos los campos");
     }
-    console.log("Iniciando sesión con:", credentials);
-  }; 
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Correo electrónico:</label>
-      <input 
-        type="email" 
-        name="email" 
-        id="email" 
-        onChange={handleChange} 
-      />
-      
-      <label htmlFor="password">Contraseña:</label>
-      <input 
-        type="password" 
-        name="password" 
-        id="password" 
-        onChange={handleChange} 
-      />
-
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      <button type="submit">Ingresar</button>
+    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <div style={{ textAlign: 'left' }}>
+        <label>Correo electrónico:</label>
+        <input
+          type="email"
+          placeholder="ejemplo@correo.com"
+          className="input-field"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div style={{ textAlign: 'left' }}>
+        <label>Contraseña:</label>
+        <input
+          type="password"
+          placeholder="********"
+          className="input-field"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit" className="btn-primary">
+        INICIAR SESIÓN
+      </button>
     </form>
   );
-}; 
+};
+
 export default LoginForm;
