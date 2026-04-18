@@ -66,7 +66,7 @@ const LoginForm = () => {
       {success && <p style={{ color: 'green' }}>{success}</p>}
       <button type="submit" disabled={loading}>
         {loading ? 'Cargando...' : 'Ingresar'}
-      </button>
+      </button>//
     </form>
   );
 };
