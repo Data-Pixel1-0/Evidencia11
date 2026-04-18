@@ -4,7 +4,7 @@ import LoginForm from './components/LoginForm'
 import RegistroForm from './components/RegistroForm'
 import Dashboard from './components/Dashboard'
 import Profile from './components/Profile'
-import Settings from './components/Settings' 
+import Settings from './components/Settings'
 import './App.css'
 
 function App() {

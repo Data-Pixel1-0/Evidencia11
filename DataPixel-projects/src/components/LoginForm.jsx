@@ -1,26 +1,42 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import axios from 'axios'
+
+const API_BASE = 'http://localhost:8081'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
 
-    // Simulamos la respuesta de tu base de datos
-    const mockUser = {
-      nombre: email.split('@')[0].toUpperCase(), // Convierte el correo en nombre
-      email: email,
-      rol: email.includes('admin') ? 'Administrador de Sistema' : 'Desarrollador Full Stack',
+    setError('')
+    setSuccess('')
+
+    if (!email || !password) {
+      setError('Todos los campos son obligatorios')
+      return
     }
 
-    // GUARDAMOS LOS DATOS PARA EL PERFIL
-    localStorage.setItem('userData', JSON.stringify(mockUser))
+    setLoading(true)
 
-    // Navegamos al Perfil
-    navigate('/profile')
+    try {
+      const response = await axios.post(`${API_BASE}/login`, { email, password })
+      const userData = response.data
+      localStorage.setItem('userData', JSON.stringify(userData))
+      setSuccess('Login exitoso')
+      navigate('/profile')
+    } catch (err) {
+      const message = err.response?.data?.message || 'Error al iniciar sesión'
+      setError(message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -35,8 +51,6 @@ const LoginForm = () => {
         color: 'white',
       }}
     >
-      <h1 style={{ fontSize: '3rem', marginBottom: '20px' }}></h1>
-
       <div
         style={{
           background: '#2d3748',
@@ -89,8 +103,12 @@ const LoginForm = () => {
             />
           </div>
 
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {success && <p style={{ color: 'green' }}>{success}</p>}
+
           <button
             type="submit"
+            disabled={loading}
             style={{
               padding: '12px',
               background: '#3b82f6',
@@ -98,11 +116,11 @@ const LoginForm = () => {
               border: 'none',
               borderRadius: '8px',
               fontWeight: 'bold',
-              cursor: 'pointer',
+              cursor: loading ? 'not-allowed' : 'pointer',
               marginTop: '10px',
             }}
           >
-            Entrar
+            {loading ? 'Cargando...' : 'Entrar'}
           </button>
         </form>
 

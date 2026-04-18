@@ -1,33 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Profile = () => {
-  // Estado para los datos del usuario
-  const [user, setUser] = useState({
-    nombre: 'Cargando...',
-    rol: 'Desarrollador Full Stack',
-    email: '',
-    ubicacion: 'Colombia, Caribe',
-    estado: 'Activo',
-  })
-
-  useEffect(() => {
-    // 1. Jalamos lo que guardó el Login en el disco del navegador
+  // Estado para los datos del usuario, inicializado desde localStorage
+  const [user] = useState(() => {
     const storedData = localStorage.getItem('userData')
-
     if (storedData) {
       const parsedData = JSON.parse(storedData)
-
-      // 2. Actualizamos el estado con los datos reales
-      setUser({
-        ...user,
-        // Buscamos el nombre de varias formas por si el Login mandó 'user' o 'nombre'
+      return {
         nombre: parsedData.nombre || parsedData.user || parsedData.usuario || 'Usuario Admin',
         email: parsedData.email || 'admin@datapixel.com',
         rol: parsedData.rol || 'Administrador de Sistema',
-      })
+        ubicacion: 'Colombia, Caribe',
+        estado: 'Activo',
+      }
     }
-  }, [])
+
+    return {
+      nombre: 'Cargando...',
+      rol: 'Desarrollador Full Stack',
+      email: '',
+      ubicacion: 'Colombia, Caribe',
+      estado: 'Activo',
+    }
+  })
 
   return (
     <div

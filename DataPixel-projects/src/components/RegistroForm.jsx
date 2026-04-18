@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import axios from 'axios'
+
+const API_BASE = 'http://localhost:8081'
 
 const RegistroForm = () => {
   const [formData, setFormData] = useState({
@@ -8,13 +11,32 @@ const RegistroForm = () => {
     password: '',
     tipo: 'Cliente',
   })
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
-  const handleRegistro = (e) => {
+  const handleRegistro = async (e) => {
     e.preventDefault()
-    // Aquí guardarías en tu base de datos real
-    alert('¡Cuenta creada con éxito!')
-    navigate('/') // Vuelve al login
+    setError('')
+    setSuccess('')
+
+    if (!formData.nombre || !formData.email || !formData.password) {
+      setError('Todos los campos son obligatorios')
+      return
+    }
+
+    setSubmitting(true)
+
+    try {
+      await axios.post(`${API_BASE}/register`, formData)
+      setSuccess('Cuenta creada con éxito')
+      setTimeout(() => navigate('/'), 800)
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error al crear la cuenta')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -48,6 +70,7 @@ const RegistroForm = () => {
         >
           <input
             placeholder="Nombre Completo"
+            value={formData.nombre}
             style={{
               padding: '12px',
               borderRadius: '8px',
@@ -61,6 +84,7 @@ const RegistroForm = () => {
           <input
             type="email"
             placeholder="Correo electrónico"
+            value={formData.email}
             style={{
               padding: '12px',
               borderRadius: '8px',
@@ -74,6 +98,7 @@ const RegistroForm = () => {
           <input
             type="password"
             placeholder="Contraseña"
+            value={formData.password}
             style={{
               padding: '12px',
               borderRadius: '8px',
@@ -87,6 +112,7 @@ const RegistroForm = () => {
 
           <label>Tipo de Usuario</label>
           <select
+            value={formData.tipo}
             style={{
               padding: '12px',
               borderRadius: '8px',
@@ -97,11 +123,16 @@ const RegistroForm = () => {
             onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}
           >
             <option value="Cliente">Cliente</option>
-            <option value="Admin">Administrador</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Empleado">Empleado</option>
           </select>
+
+          {error && <p style={{ color: 'red', margin: 0 }}>{error}</p>}
+          {success && <p style={{ color: 'green', margin: 0 }}>{success}</p>}
 
           <button
             type="submit"
+            disabled={submitting}
             style={{
               padding: '12px',
               background: '#48bb78',
@@ -109,11 +140,12 @@ const RegistroForm = () => {
               border: 'none',
               borderRadius: '8px',
               fontWeight: 'bold',
-              cursor: 'pointer',
+              cursor: submitting ? 'not-allowed' : 'pointer',
+              opacity: submitting ? 0.7 : 1,
               marginTop: '10px',
             }}
           >
-            Registrarme
+            {submitting ? 'Registrando...' : 'Registrarme'}
           </button>
         </form>
 
