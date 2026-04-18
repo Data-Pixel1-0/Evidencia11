@@ -70,6 +70,146 @@ app.post('/register', (req, res) => {
   })
 })
 
+app.get('/api/productos', (req, res) => {
+  const sql = 'SELECT * FROM productos LIMIT 20'
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error('Error al obtener productos:', err)
+      return res.status(500).json({ message: 'Error al obtener productos' })
+    }
+
+    res.json(result)
+  })
+})
+
+// Endpoint para inicializar la tabla de productos con datos de prueba
+app.post('/api/inicializar-productos', (req, res) => {
+  // Primero crear la tabla si no existe
+  const createTableSQL = `
+    CREATE TABLE IF NOT EXISTS productos (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      cantidad INT NOT NULL,
+      precio DECIMAL(10, 2),
+      descripcion TEXT,
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `
+
+  db.query(createTableSQL, (err) => {
+    if (err) {
+      console.error('Error creando tabla:', err)
+      return res.status(500).json({ message: 'Error creando tabla' })
+    }
+
+    // Verificar si la tabla está vacía
+    const checkSQL = 'SELECT COUNT(*) as count FROM productos'
+    db.query(checkSQL, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error verificando datos' })
+      }
+
+      if (result[0].count > 0) {
+        return res.json({ message: 'La tabla ya contiene datos' })
+      }
+
+      // Insertar datos de prueba
+      const insertSQL = `
+        INSERT INTO productos (nombre, cantidad, precio, descripcion) VALUES
+        ('Laptop Dell XPS 13', 15, 1200.00, 'Laptop ultraportátil de alto rendimiento'),
+        ('Mouse Logitech MX', 45, 99.99, 'Mouse inalámbrico ergonómico'),
+        ('Teclado Mecánico RGB', 32, 179.50, 'Teclado mecánico con iluminación RGB'),
+        ('Monitor LG 27 pulgadas', 8, 299.99, 'Monitor 4K de alta resolución'),
+        ('Cable HDMI 2.1', 120, 15.99, 'Cable HDMI de última generación'),
+        ('Hub USB-C 7 puertos', 24, 89.99, 'Expande la conectividad de tu dispositivo'),
+        ('Webcam Logitech C920', 18, 79.99, 'Webcam Full HD para videollamadas'),
+        ('Auriculares Sony WH1000XM5', 11, 399.99, 'Auriculares con cancelación de ruido'),
+        ('Soporte para Laptop', 56, 29.99, 'Soporte ajustable de aluminio'),
+        ('Adaptador de corriente USB-C', 85, 45.00, 'Cargador rápido 65W')
+      `
+
+      db.query(insertSQL, (err) => {
+        if (err) {
+          console.error('Error insertando datos:', err)
+          return res.status(500).json({ message: 'Error insertando datos' })
+        }
+
+        res.json({ message: 'Productos inicializados correctamente' })
+      })
+    })
+  })
+})
+
+// POST: Crear nuevo producto
+app.post('/api/productos', (req, res) => {
+  const { nombre, cantidad, precio, descripcion } = req.body
+
+  if (!nombre || cantidad === undefined) {
+    return res.status(400).json({ message: 'Nombre y cantidad son obligatorios' })
+  }
+
+  const sql = 'INSERT INTO productos (nombre, cantidad, precio, descripcion) VALUES (?, ?, ?, ?)'
+  db.query(sql, [nombre, cantidad, precio || null, descripcion || null], (err, result) => {
+    if (err) {
+      console.error('Error al crear producto:', err)
+      return res.status(500).json({ message: 'Error al crear producto' })
+    }
+
+    res.status(201).json({
+      id: result.insertId,
+      nombre,
+      cantidad,
+      precio,
+      descripcion,
+      message: 'Producto creado correctamente',
+    })
+  })
+})
+
+// PUT: Actualizar producto
+app.put('/api/productos/:id', (req, res) => {
+  const { id } = req.params
+  const { nombre, cantidad, precio, descripcion } = req.body
+
+  if (!nombre || cantidad === undefined) {
+    return res.status(400).json({ message: 'Nombre y cantidad son obligatorios' })
+  }
+
+  const sql = 'UPDATE productos SET nombre = ?, cantidad = ?, precio = ?, descripcion = ? WHERE id = ?'
+  db.query(sql, [nombre, cantidad, precio || null, descripcion || null, id], (err, result) => {
+    if (err) {
+      console.error('Error al actualizar producto:', err)
+      return res.status(500).json({ message: 'Error al actualizar producto' })
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Producto no encontrado' })
+    }
+
+    res.json({ message: 'Producto actualizado correctamente' })
+  })
+})
+
+// DELETE: Eliminar producto
+app.delete('/api/productos/:id', (req, res) => {
+  const { id } = req.params
+
+  const sql = 'DELETE FROM productos WHERE id = ?'
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Error al eliminar producto:', err)
+      return res.status(500).json({ message: 'Error al eliminar producto' })
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Producto no encontrado' })
+    }
+
+    res.json({ message: 'Producto eliminado correctamente' })
+  })
+})
+
 app.listen(8081, () => {
   console.log('Servidor backend corriendo en http://localhost:8081')
 })

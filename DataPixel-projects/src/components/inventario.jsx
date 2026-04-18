@@ -7,7 +7,7 @@ const InventarioDataPixel = () => {
   const [loading, setLoading] = useState(false) // Estado: loading [cite: 83]
   const [error, setError] = useState(null) // Estado: error [cite: 84]
 
-  const API_URL = 'http://localhost:8080/api/productos'
+  const API_URL = 'http://localhost:8081/api/productos'
 
   // --- OPERACIÓN 1: Listar datos (GET) [cite: 79] ---
   const obtenerInventario = async () => {
