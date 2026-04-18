@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Profile = () => {
-  // Datos simulados del usuario
+  // Datos simulados
   const user = {
     nombre: 'Kenner',
     rol: 'Desarrollador Full Stack',
