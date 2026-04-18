@@ -1,44 +1,136 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Profile = () => {
-  const navigate = useNavigate();
+  // Datos simulados del usuario
+  const user = {
+    nombre: 'Kenner',
+    rol: 'Desarrollador Full Stack',
+    email: 'Kenner@sena.edu.co',
+    ubicacion: 'Colombia, Caribe',
+    estado: 'Activo',
+  }
 
   return (
-    <div className="card-professional" style={{ maxWidth: '500px', margin: '0 auto' }}>
-      <div style={{ position: 'relative', marginBottom: '40px' }}>
-        <div style={{ height: '100px', background: 'linear-gradient(90deg, #3b82f6, #2d3748)', borderRadius: '8px 8px 0 0' }}></div>
-        <div style={{ 
-          width: '80px', height: '80px', background: '#4a5568', borderRadius: '50%', 
-          border: '4px solid #1a202c', position: 'absolute', bottom: '-40px', left: '20px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem'
-        }}>
-          👤
-        </div>
+    <div
+      style={{
+        display: 'flex',
+        minHeight: '80vh',
+        background: '#1a202c',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        border: '1px solid #2d3748',
+      }}
+    >
+      {/* Sidebar Lateral (Igual a Dashboard y Settings) */}
+      <div
+        style={{
+          width: '220px',
+          background: '#2d3748',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+        }}
+      >
+        <h3 style={{ color: '#3b82f6', fontSize: '1.2rem', textAlign: 'center' }}>Data Pixel</h3>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
+          <Link to="/dashboard" style={{ color: 'white', textDecoration: 'none', padding: '10px' }}>
+            🏠 Inicio
+          </Link>
+          <Link
+            to="/profile"
+            style={{
+              color: 'white',
+              textDecoration: 'none',
+              padding: '10px',
+              background: '#4a5568',
+              borderRadius: '5px',
+            }}
+          >
+            👤 Mi Perfil
+          </Link>
+          <Link to="/settings" style={{ color: 'white', textDecoration: 'none', padding: '10px' }}>
+            ⚙️ Configuración
+          </Link>
+        </nav>
       </div>
 
-      <div style={{ textAlign: 'left', padding: '0 20px 20px 20px' }}>
-        <h2 style={{ margin: '0' }}>Yuranis Pérez</h2>
-        <p style={{ color: '#3b82f6', margin: '5px 0 20px 0', fontWeight: 'bold' }}>Desarrollador Full Stack</p>
-        
-        <div style={{ background: '#2d3748', padding: '15px', borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <p style={{ margin: 0 }}><strong>Email:</strong> kenner@sena.edu.co</p>
-          <p style={{ margin: 0 }}><strong>Ubicación:</strong> Colombia, Caribe</p>
-          <p style={{ margin: 0 }}><strong>Estado:</strong> Activo</p>
-        </div>
+      {/* Contenido del Perfil */}
+      <div style={{ flex: 1, padding: '30px', textAlign: 'left' }}>
+        <header
+          style={{ marginBottom: '30px', borderBottom: '1px solid #2d3748', paddingBottom: '10px' }}
+        >
+          <h2>Perfil de Usuario</h2>
+          <p style={{ color: '#a0aec0' }}>Información personal y del sistema</p>
+        </header>
 
-        <div style={{ marginTop: '30px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-          <Link to="/dashboard" style={{ color: '#a0aec0', textDecoration: 'none' }}>← Volver</Link>
-          <button 
-            onClick={() => navigate('/')}
-            style={{ marginLeft: 'auto', background: 'transparent', border: '1px solid #e53e3e', color: '#e53e3e', padding: '8px 15px', borderRadius: '5px', cursor: 'pointer' }}
-          >
-            Cerrar Sesión
-          </button>
+        <div
+          className="profile-card"
+          style={{
+            background: '#2d3748',
+            borderRadius: '15px',
+            overflow: 'hidden',
+            maxWidth: '600px',
+          }}
+        >
+          {/* Banner decorativo */}
+          <div
+            style={{ height: '100px', background: 'linear-gradient(90deg, #3b82f6, #2d3748)' }}
+          ></div>
+
+          <div style={{ padding: '20px', position: 'relative' }}>
+            {/* Círculo del Avatar */}
+            <div
+              style={{
+                width: '100px',
+                height: '100px',
+                background: '#4a5568',
+                borderRadius: '50%',
+                border: '5px solid #2d3748',
+                position: 'absolute',
+                top: '-50px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '2.5rem',
+              }}
+            >
+              👤
+            </div>
+
+            <div style={{ marginTop: '50px' }}>
+              <h3 style={{ fontSize: '1.8rem', margin: '0' }}>{user.nombre}</h3>
+              <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
+                {user.rol}
+              </p>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gap: '10px',
+                  background: '#1a202c',
+                  padding: '15px',
+                  borderRadius: '8px',
+                }}
+              >
+                <p style={{ margin: 0 }}>
+                  <strong>Email:</strong> {user.email}
+                </p>
+                <p style={{ margin: 0 }}>
+                  <strong>Ubicación:</strong> {user.ubicacion}
+                </p>
+                <p style={{ margin: 0 }}>
+                  <strong>Estado del Sistema:</strong>{' '}
+                  <span style={{ color: '#48bb78' }}>● {user.estado}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile
