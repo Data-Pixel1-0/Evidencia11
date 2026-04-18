@@ -22,20 +22,20 @@ const LoginForm = () => {
     setLoading(true)
 
     if (!credentials.email || !credentials.password) {
-      setError('Todos los campos son obligatorios')
+      setError('Todos los campos son obligatorios')//aqui valida que los campos no esten vacios
       setLoading(false)
       return
     }
 
     // Simulación de login
     setTimeout(() => {
-      if (credentials.email === 'admin@test.com' && credentials.password === '1234') {
+      if (credentials.email === 'admin@test.com' && credentials.password === '1234') {//estas son las credenciales
         setSuccess('Login exitoso ')
       } else {
         setError('Credenciales incorrectas ')
       }
       setLoading(false)
-    }, 2000) //comentario
+    }, 2000) 
   }
 
   return (
