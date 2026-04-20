@@ -27,8 +27,9 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(`${API_BASE}/login`, { email, password })
-      const userData = response.data
-      localStorage.setItem('userData', JSON.stringify(userData))
+      const { token, user } = response.data
+      localStorage.setItem('token', token)
+      localStorage.setItem('userData', JSON.stringify(user)) // Opcional, para datos básicos
       setSuccess('Login exitoso')
       navigate('/profile')
     } catch (err) {

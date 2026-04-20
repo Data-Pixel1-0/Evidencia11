@@ -1,29 +1,50 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
+const API_BASE = 'http://localhost:8081'
+
 const Profile = () => {
-  // Estado para los datos del usuario, inicializado desde localStorage
-  const [user] = useState(() => {
-    const storedData = localStorage.getItem('userData')
-    if (storedData) {
-      const parsedData = JSON.parse(storedData)
-      return {
-        nombre: parsedData.nombre || parsedData.user || parsedData.usuario || 'Usuario Admin',
-        email: parsedData.email || 'admin@datapixel.com',
-        rol: parsedData.rol || 'Administrador de Sistema',
-        ubicacion: 'Colombia, Caribe',
-        estado: 'Activo',
+  const [user, setUser] = useState({
+    nombre: 'Cargando...',
+    email: '',
+    rol: '',
+    ubicacion: 'Colombia, Caribe',
+    estado: 'Activo',
+  })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        setError('No autenticado')
+        setLoading(false)
+        return
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        if (!response.ok) {
+          throw new Error('Error al cargar perfil')
+        }
+
+        const data = await response.json()
+        setUser(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
       }
     }
 
-    return {
-      nombre: 'Cargando...',
-      rol: 'Desarrollador Full Stack',
-      email: '',
-      ubicacion: 'Colombia, Caribe',
-      estado: 'Activo',
-    }
-  })
+    fetchProfile()
+  }, [])
 
   return (
     <div
@@ -79,70 +100,74 @@ const Profile = () => {
           <p style={{ color: '#a0aec0' }}>Información personal y del sistema</p>
         </header>
 
-        <div
-          className="profile-card"
-          style={{
-            background: '#2d3748',
-            borderRadius: '15px',
-            overflow: 'hidden',
-            maxWidth: '600px',
-            border: '1px solid #4a5568',
-          }}
-        >
-          {/* Banner decorativo */}
+        {loading && <p style={{ color: 'white' }}>Cargando perfil...</p>}
+        {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+        {!loading && !error && (
           <div
-            style={{ height: '100px', background: 'linear-gradient(90deg, #3b82f6, #2d3748)' }}
-          ></div>
-
-          <div style={{ padding: '20px', position: 'relative' }}>
-            {/* Círculo del Avatar */}
+            className="profile-card"
+            style={{
+              background: '#2d3748',
+              borderRadius: '15px',
+              overflow: 'hidden',
+              maxWidth: '600px',
+              border: '1px solid #4a5568',
+            }}
+          >
+            {/* Banner decorativo */}
             <div
-              style={{
-                width: '100px',
-                height: '100px',
-                background: '#4a5568',
-                borderRadius: '50%',
-                border: '5px solid #2d3748',
-                position: 'absolute',
-                top: '-50px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center', // Corregido: sin paréntesis raros
-                fontSize: '2.5rem',
-              }}
-            >
-              👤
-            </div>
+              style={{ height: '100px', background: 'linear-gradient(90deg, #3b82f6, #2d3748)' }}
+            ></div>
 
-            <div style={{ marginTop: '50px', color: 'white' }}>
-              <h3 style={{ fontSize: '1.8rem', margin: '0' }}>{user.nombre}</h3>
-              <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
-                {user.rol}
-              </p>
-
+            <div style={{ padding: '20px', position: 'relative' }}>
+              {/* Círculo del Avatar */}
               <div
                 style={{
-                  display: 'grid',
-                  gap: '10px',
-                  background: '#1a202c',
-                  padding: '15px',
-                  borderRadius: '8px',
+                  width: '100px',
+                  height: '100px',
+                  background: '#4a5568',
+                  borderRadius: '50%',
+                  border: '5px solid #2d3748',
+                  position: 'absolute',
+                  top: '-50px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center', // Corregido: sin paréntesis raros
+                  fontSize: '2.5rem',
                 }}
               >
-                <p style={{ margin: 0 }}>
-                  <strong>Email:</strong> {user.email}
+                👤
+              </div>
+
+              <div style={{ marginTop: '50px', color: 'white' }}>
+                <h3 style={{ fontSize: '1.8rem', margin: '0' }}>{user.nombre}</h3>
+                <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
+                  {user.rol}
                 </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Ubicación:</strong> {user.ubicacion}
-                </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Estado del Sistema:</strong>{' '}
-                  <span style={{ color: '#48bb78' }}>● {user.estado}</span>
-                </p>
+
+                <div
+                  style={{
+                    display: 'grid',
+                    gap: '10px',
+                    background: '#1a202c',
+                    padding: '15px',
+                    borderRadius: '8px',
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    <strong>Email:</strong> {user.email}
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <strong>Ubicación:</strong> {user.ubicacion}
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <strong>Estado del Sistema:</strong>{' '}
+                    <span style={{ color: '#48bb78' }}>● {user.estado}</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
