@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useApp } from '../i18n/AppContext'
 
 const Dashboard = () => {
+  const { theme, language, t, colors } = useApp()
   const [productos, setProductos] = useState([])
   const [loadingInventario, setLoadingInventario] = useState(false)
   const [errorInventario, setErrorInventario] = useState(null)
@@ -117,10 +119,11 @@ const Dashboard = () => {
       style={{
         display: 'flex',
         minHeight: '80vh',
-        background: '#1a202c',
+        background: colors.bg,
         borderRadius: '12px',
         overflow: 'hidden',
-        border: '1px solid #2d3748',
+        border: `1px solid ${colors.border}`,
+        transition: 'all 0.3s ease',
       }}
     >
       {/* Barra Lateral Común */}
@@ -128,11 +131,12 @@ const Dashboard = () => {
         className="sidebar"
         style={{
           width: '220px',
-          background: '#2d3748',
+          background: colors.sidebar,
           padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
+          transition: 'all 0.3s ease',
         }}
       >
         <h3 style={{ color: '#3b82f6', fontSize: '1.2rem', textAlign: 'center' }}>Data Pixel</h3>
@@ -140,20 +144,37 @@ const Dashboard = () => {
           <Link
             to="/dashboard"
             style={{
-              color: 'white',
+              color: colors.text,
               textDecoration: 'none',
               padding: '10px',
-              background: '#4a5568',
+              background: colors.border,
               borderRadius: '5px',
+              transition: 'all 0.3s ease',
             }}
           >
-            🏠 Inicio
+            🏠 {t('inicio')}
           </Link>
-          <Link to="/profile" style={{ color: 'white', textDecoration: 'none', padding: '10px' }}>
-            👤 Mi Perfil
+          <Link
+            to="/profile"
+            style={{
+              color: colors.text,
+              textDecoration: 'none',
+              padding: '10px',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            👤 {t('miPerfil')}
           </Link>
-          <Link to="/settings" style={{ color: 'white', textDecoration: 'none', padding: '10px' }}>
-            ⚙️ Configuración
+          <Link
+            to="/settings"
+            style={{
+              color: colors.text,
+              textDecoration: 'none',
+              padding: '10px',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            ⚙️ {t('configuracion')}
           </Link>
         </nav>
       </div>
@@ -166,13 +187,20 @@ const Dashboard = () => {
           textAlign: 'left',
           overflowY: 'auto',
           maxHeight: '80vh',
+          background: colors.bg,
+          transition: 'all 0.3s ease',
         }}
       >
         <header
-          style={{ marginBottom: '30px', borderBottom: '1px solid #2d3748', paddingBottom: '10px' }}
+          style={{
+            marginBottom: '30px',
+            borderBottom: `1px solid ${colors.border}`,
+            paddingBottom: '10px',
+            transition: 'all 0.3s ease',
+          }}
         >
-          <h2>Panel de Control</h2>
-          <p style={{ color: '#a0aec0' }}>Resumen de operaciones Tecnoglass</p>
+          <h2 style={{ color: colors.text }}>{t('panelControl')}</h2>
+          <p style={{ color: colors.textDark }}>{t('resumen')}</p>
         </header>
         <div
           style={{
@@ -184,25 +212,27 @@ const Dashboard = () => {
         >
           <div
             style={{
-              background: '#2d3748',
+              background: colors.card,
               padding: '20px',
               borderRadius: '10px',
               borderLeft: '4px solid #3b82f6',
+              transition: 'all 0.3s ease',
             }}
           >
-            <span>Proyectos</span>
-            <h3 style={{ fontSize: '2rem' }}>08</h3>
+            <span style={{ color: colors.text }}>{t('proyectos')}</span>
+            <h3 style={{ fontSize: '2rem', color: colors.text }}>08</h3>
           </div>
           <div
             style={{
-              background: '#2d3748',
+              background: colors.card,
               padding: '20px',
               borderRadius: '10px',
               borderLeft: '4px solid #48bb78',
+              transition: 'all 0.3s ease',
             }}
           >
-            <span>Usuarios</span>
-            <h3 style={{ fontSize: '2rem' }}>24</h3>
+            <span style={{ color: colors.text }}>{t('usuarios')}</span>
+            <h3 style={{ fontSize: '2rem', color: colors.text }}>24</h3>
           </div>
         </div>
 
@@ -216,7 +246,7 @@ const Dashboard = () => {
               marginBottom: '15px',
             }}
           >
-            <h3 style={{ color: '#a0aec0' }}>📦 Gestión de Inventario</h3>
+            <h3 style={{ color: colors.textDark }}>{t('gestionInventario')}</h3>
             <button
               onClick={() => setFormularioAbierto(!formularioAbierto)}
               style={{
@@ -227,9 +257,10 @@ const Dashboard = () => {
                 borderRadius: '6px',
                 cursor: 'pointer',
                 fontSize: '0.9rem',
+                transition: 'all 0.3s ease',
               }}
             >
-              {formularioAbierto ? '✕ Cerrar' : '+ Nuevo Producto'}
+              {formularioAbierto ? '✕ ' + t('cerrar') : '+ ' + t('nuevoProducto')}
             </button>
           </div>
 
@@ -238,17 +269,18 @@ const Dashboard = () => {
             <form
               onSubmit={handleSubmitProducto}
               style={{
-                background: '#2d3748',
+                background: colors.card,
                 padding: '20px',
                 borderRadius: '8px',
                 marginBottom: '20px',
-                border: '1px solid #4a5568',
+                border: `1px solid ${colors.border}`,
+                transition: 'all 0.3s ease',
               }}
             >
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                 <div>
-                  <label style={{ color: '#a0aec0', display: 'block', marginBottom: '5px' }}>
-                    Nombre *
+                  <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    {t('nombre')} *
                   </label>
                   <input
                     type="text"
@@ -258,18 +290,19 @@ const Dashboard = () => {
                     style={{
                       width: '100%',
                       padding: '8px',
-                      background: '#1a202c',
-                      border: '1px solid #4a5568',
-                      color: 'white',
+                      background: colors.input,
+                      border: `1px solid ${colors.border}`,
+                      color: colors.text,
                       borderRadius: '4px',
                       boxSizing: 'border-box',
+                      transition: 'all 0.3s ease',
                     }}
                     placeholder="Nombre del producto"
                   />
                 </div>
                 <div>
-                  <label style={{ color: '#a0aec0', display: 'block', marginBottom: '5px' }}>
-                    Cantidad *
+                  <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    {t('cantidad')} *
                   </label>
                   <input
                     type="number"
@@ -279,18 +312,19 @@ const Dashboard = () => {
                     style={{
                       width: '100%',
                       padding: '8px',
-                      background: '#1a202c',
-                      border: '1px solid #4a5568',
-                      color: 'white',
+                      background: colors.input,
+                      border: `1px solid ${colors.border}`,
+                      color: colors.text,
                       borderRadius: '4px',
                       boxSizing: 'border-box',
+                      transition: 'all 0.3s ease',
                     }}
                     placeholder="0"
                   />
                 </div>
                 <div>
-                  <label style={{ color: '#a0aec0', display: 'block', marginBottom: '5px' }}>
-                    Precio
+                  <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    {t('precio')}
                   </label>
                   <input
                     type="number"
@@ -300,19 +334,20 @@ const Dashboard = () => {
                     style={{
                       width: '100%',
                       padding: '8px',
-                      background: '#1a202c',
-                      border: '1px solid #4a5568',
-                      color: 'white',
+                      background: colors.input,
+                      border: `1px solid ${colors.border}`,
+                      color: colors.text,
                       borderRadius: '4px',
                       boxSizing: 'border-box',
+                      transition: 'all 0.3s ease',
                     }}
                     placeholder="0.00"
                     step="0.01"
                   />
                 </div>
                 <div>
-                  <label style={{ color: '#a0aec0', display: 'block', marginBottom: '5px' }}>
-                    Descripción
+                  <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    {t('descripcion')}
                   </label>
                   <input
                     type="text"
@@ -322,11 +357,12 @@ const Dashboard = () => {
                     style={{
                       width: '100%',
                       padding: '8px',
-                      background: '#1a202c',
-                      border: '1px solid #4a5568',
-                      color: 'white',
+                      background: colors.input,
+                      border: `1px solid ${colors.border}`,
+                      color: colors.text,
                       borderRadius: '4px',
                       boxSizing: 'border-box',
+                      transition: 'all 0.3s ease',
                     }}
                     placeholder="Descripción del producto"
                   />
@@ -342,9 +378,10 @@ const Dashboard = () => {
                     border: 'none',
                     borderRadius: '6px',
                     cursor: 'pointer',
+                    transition: 'all 0.3s ease',
                   }}
                 >
-                  {editando ? '✓ Guardar Cambios' : '✓ Crear Producto'}
+                  {editando ? '✓ ' + t('guardarCambios') : '✓ Crear'}
                 </button>
                 <button
                   type="button"
@@ -356,19 +393,20 @@ const Dashboard = () => {
                     border: 'none',
                     borderRadius: '6px',
                     cursor: 'pointer',
+                    transition: 'all 0.3s ease',
                   }}
                 >
-                  ✕ Cancelar
+                  ✕ {t('cancelar')}
                 </button>
               </div>
             </form>
           )}
 
-          {loadingInventario && <p style={{ color: '#cbd5e0' }}>Cargando inventario...</p>}
+          {loadingInventario && <p style={{ color: colors.textDark }}>{t('cargando')}</p>}
           {errorInventario && <p style={{ color: '#fc8181' }}>{errorInventario}</p>}
 
           {!loadingInventario && productos.length === 0 && !errorInventario && (
-            <p style={{ color: '#cbd5e0' }}>No hay productos registrados.</p>
+            <p style={{ color: colors.textDark }}>{t('sinProductos')}</p>
           )}
 
           {productos.length > 0 && (
@@ -376,29 +414,48 @@ const Dashboard = () => {
               style={{
                 width: '100%',
                 borderCollapse: 'collapse',
-                background: '#2d3748',
+                background: colors.card,
                 borderRadius: '8px',
                 overflow: 'hidden',
+                transition: 'all 0.3s ease',
               }}
             >
               <thead>
-                <tr style={{ background: '#1a202c', borderBottom: '2px solid #4a5568' }}>
-                  <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>ID</th>
-                  <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>Nombre</th>
-                  <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>Cantidad</th>
-                  <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>Precio</th>
-                  <th style={{ padding: '12px', textAlign: 'center', color: '#a0aec0' }}>
-                    Acciones
+                <tr
+                  style={{
+                    background: colors.bg,
+                    borderBottom: `2px solid ${colors.border}`,
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>ID</th>
+                  <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                    {t('nombre')}
+                  </th>
+                  <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                    {t('cantidad')}
+                  </th>
+                  <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                    {t('precio')}
+                  </th>
+                  <th style={{ padding: '12px', textAlign: 'center', color: colors.textDark }}>
+                    {t('acciones')}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {productos.map((producto) => (
-                  <tr key={producto.id} style={{ borderBottom: '1px solid #4a5568' }}>
-                    <td style={{ padding: '12px', color: '#cbd5e0' }}>{producto.id}</td>
-                    <td style={{ padding: '12px', color: '#cbd5e0' }}>{producto.nombre}</td>
-                    <td style={{ padding: '12px', color: '#cbd5e0' }}>{producto.cantidad}</td>
-                    <td style={{ padding: '12px', color: '#cbd5e0' }}>
+                  <tr
+                    key={producto.id}
+                    style={{
+                      borderBottom: `1px solid ${colors.border}`,
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    <td style={{ padding: '12px', color: colors.text }}>{producto.id}</td>
+                    <td style={{ padding: '12px', color: colors.text }}>{producto.nombre}</td>
+                    <td style={{ padding: '12px', color: colors.text }}>{producto.cantidad}</td>
+                    <td style={{ padding: '12px', color: colors.text }}>
                       ${parseFloat(producto.precio || 0).toFixed(2)}
                     </td>
                     <td
@@ -420,9 +477,10 @@ const Dashboard = () => {
                           borderRadius: '4px',
                           cursor: 'pointer',
                           fontSize: '0.85rem',
+                          transition: 'all 0.3s ease',
                         }}
                       >
-                        ✏️ Editar
+                        ✏️ {t('editar')}
                       </button>
                       <button
                         onClick={() => handleEliminar(producto.id)}
@@ -434,9 +492,10 @@ const Dashboard = () => {
                           borderRadius: '4px',
                           cursor: 'pointer',
                           fontSize: '0.85rem',
+                          transition: 'all 0.3s ease',
                         }}
                       >
-                        🗑️ Eliminar
+                        🗑️ {t('eliminar')}
                       </button>
                     </td>
                   </tr>

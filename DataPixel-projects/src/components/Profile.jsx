@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useApp } from '../i18n/AppContext'
 
 const Profile = () => {
+  const { theme, language, t, colors } = useApp()
+
   // Estado para los datos del usuario, inicializado desde localStorage
   const [user] = useState(() => {
     const storedData = localStorage.getItem('userData')
@@ -30,68 +33,96 @@ const Profile = () => {
       style={{
         display: 'flex',
         minHeight: '80vh',
-        background: '#1a202c',
+        background: colors.bg,
         borderRadius: '12px',
         overflow: 'hidden',
-        border: '1px solid #2d3748',
+        border: `1px solid ${colors.border}`,
+        transition: 'all 0.3s ease',
       }}
     >
       {/* Sidebar Lateral Original */}
       <div
         style={{
           width: '220px',
-          background: '#2d3748',
+          background: colors.sidebar,
           padding: '20px',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
+          transition: 'all 0.3s ease',
         }}
       >
         <h3 style={{ color: '#3b82f6', fontSize: '1.2rem', textAlign: 'center' }}>Data Pixel</h3>
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
-          <Link to="/dashboard" style={{ color: 'white', textDecoration: 'none', padding: '10px' }}>
-            🏠 Inicio
+          <Link
+            to="/dashboard"
+            style={{
+              color: colors.text,
+              textDecoration: 'none',
+              padding: '10px',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            🏠 {t('inicio')}
           </Link>
           <Link
             to="/profile"
             style={{
-              color: 'white',
+              color: colors.text,
               textDecoration: 'none',
               padding: '10px',
-              background: '#4a5568',
+              background: colors.border,
               borderRadius: '5px',
+              transition: 'all 0.3s ease',
             }}
           >
-            👤 Mi Perfil
+            👤 {t('miPerfil')}
           </Link>
-          <Link to="/settings" style={{ color: 'white', textDecoration: 'none', padding: '10px' }}>
-            ⚙️ Configuración
+          <Link
+            to="/settings"
+            style={{
+              color: colors.text,
+              textDecoration: 'none',
+              padding: '10px',
+              transition: 'all 0.3s ease',
+            }}
+          >
+            ⚙️ {t('configuracion')}
           </Link>
         </nav>
       </div>
 
       {/* Contenido del Perfil */}
-      <div style={{ flex: 1, padding: '30px', textAlign: 'left' }}>
+      <div style={{ flex: 1, padding: '30px', textAlign: 'left', transition: 'all 0.3s ease' }}>
         <header
-          style={{ marginBottom: '30px', borderBottom: '1px solid #2d3748', paddingBottom: '10px' }}
+          style={{
+            marginBottom: '30px',
+            borderBottom: `1px solid ${colors.border}`,
+            paddingBottom: '10px',
+            transition: 'all 0.3s ease',
+          }}
         >
-          <h2 style={{ color: 'white' }}>Perfil de Usuario</h2>
-          <p style={{ color: '#a0aec0' }}>Información personal y del sistema</p>
+          <h2 style={{ color: colors.text }}>{t('miPerfil')}</h2>
+          <p style={{ color: colors.textDark }}>{t('informacionPersonal')}</p>
         </header>
 
         <div
           className="profile-card"
           style={{
-            background: '#2d3748',
+            background: colors.card,
             borderRadius: '15px',
             overflow: 'hidden',
             maxWidth: '600px',
-            border: '1px solid #4a5568',
+            border: `1px solid ${colors.border}`,
+            transition: 'all 0.3s ease',
           }}
         >
           {/* Banner decorativo */}
           <div
-            style={{ height: '100px', background: 'linear-gradient(90deg, #3b82f6, #2d3748)' }}
+            style={{
+              height: '100px',
+              background: 'linear-gradient(90deg, #3b82f6, ' + colors.sidebar + ')',
+            }}
           ></div>
 
           <div style={{ padding: '20px', position: 'relative' }}>
@@ -100,21 +131,22 @@ const Profile = () => {
               style={{
                 width: '100px',
                 height: '100px',
-                background: '#4a5568',
+                background: colors.border,
                 borderRadius: '50%',
-                border: '5px solid #2d3748',
+                border: `5px solid ${colors.card}`,
                 position: 'absolute',
                 top: '-50px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center', // Corregido: sin paréntesis raros
+                justifyContent: 'center',
                 fontSize: '2.5rem',
+                transition: 'all 0.3s ease',
               }}
             >
               👤
             </div>
 
-            <div style={{ marginTop: '50px', color: 'white' }}>
+            <div style={{ marginTop: '50px', color: colors.text, transition: 'all 0.3s ease' }}>
               <h3 style={{ fontSize: '1.8rem', margin: '0' }}>{user.nombre}</h3>
               <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
                 {user.rol}
@@ -124,19 +156,20 @@ const Profile = () => {
                 style={{
                   display: 'grid',
                   gap: '10px',
-                  background: '#1a202c',
+                  background: colors.bg,
                   padding: '15px',
                   borderRadius: '8px',
+                  transition: 'all 0.3s ease',
                 }}
               >
-                <p style={{ margin: 0 }}>
+                <p style={{ margin: 0, color: colors.text }}>
                   <strong>Email:</strong> {user.email}
                 </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Ubicación:</strong> {user.ubicacion}
+                <p style={{ margin: 0, color: colors.text }}>
+                  <strong>{t('ubicacion')}:</strong> {user.ubicacion}
                 </p>
-                <p style={{ margin: 0 }}>
-                  <strong>Estado del Sistema:</strong>{' '}
+                <p style={{ margin: 0, color: colors.text }}>
+                  <strong>{t('estado')}:</strong>{' '}
                   <span style={{ color: '#48bb78' }}>● {user.estado}</span>
                 </p>
               </div>
