@@ -1,13 +1,10 @@
 import express from 'express'
 import mysql from 'mysql2'
 import cors from 'cors'
-import jwt from 'jsonwebtoken'
 
 const app = express()
 app.use(cors())
 app.use(express.json())
-
-const SECRET_KEY = 'tu_clave_secreta_aqui' // Cambia esto por una clave segura
 
 // 1. Configuración de tu base de datos MySQL
 const db = mysql.createConnection({
@@ -40,14 +37,10 @@ app.post('/login', (req, res) => {
 
     if (result.length > 0) {
       const user = result[0]
-      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' })
       return res.json({
-        token,
-        user: {
-          nombre: user.nombre,
-          email: user.email,
-          rol: user.rol || 'Usuario',
-        }
+        nombre: user.nombre,
+        email: user.email,
+        rol: user.rol || 'Usuario',
       })
     }
 
@@ -74,42 +67,6 @@ app.post('/register', (req, res) => {
     }
 
     res.status(201).json({ message: 'Usuario creado correctamente' })
-  })
-})
-
-// Middleware para verificar token
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-
-  if (!token) return res.status(401).json({ message: 'Token requerido' })
-
-  jwt.verify(token, SECRET_KEY, (err, user) => {
-    if (err) return res.status(403).json({ message: 'Token inválido' })
-    req.user = user
-    next()
-  })
-}
-
-// Ruta para obtener perfil del usuario
-app.get('/profile', authenticateToken, (req, res) => {
-  const sql = 'SELECT nombre, email, rol FROM usuarios WHERE id = ?'
-
-  db.query(sql, [req.user.id], (err, result) => {
-    if (err) return res.status(500).json({ message: 'Error en el servidor' })
-
-    if (result.length > 0) {
-      const user = result[0]
-      return res.json({
-        nombre: user.nombre,
-        email: user.email,
-        rol: user.rol || 'Usuario',
-        ubicacion: 'Colombia, Caribe',
-        estado: 'Activo',
-      })
-    }
-
-    return res.status(404).json({ message: 'Usuario no encontrado' })
   })
 })
 
@@ -219,7 +176,8 @@ app.put('/api/productos/:id', (req, res) => {
     return res.status(400).json({ message: 'Nombre y cantidad son obligatorios' })
   }
 
-  const sql = 'UPDATE productos SET nombre = ?, cantidad = ?, precio = ?, descripcion = ? WHERE id = ?'
+  const sql =
+    'UPDATE productos SET nombre = ?, cantidad = ?, precio = ?, descripcion = ? WHERE id = ?'
   db.query(sql, [nombre, cantidad, precio || null, descripcion || null, id], (err, result) => {
     if (err) {
       console.error('Error al actualizar producto:', err)

@@ -159,14 +159,29 @@ const Dashboard = () => {
       </div>
 
       {/* Contenido Principal */}
-      <div style={{ flex: 1, padding: '30px', textAlign: 'left', overflowY: 'auto', maxHeight: '80vh' }}>
+      <div
+        style={{
+          flex: 1,
+          padding: '30px',
+          textAlign: 'left',
+          overflowY: 'auto',
+          maxHeight: '80vh',
+        }}
+      >
         <header
           style={{ marginBottom: '30px', borderBottom: '1px solid #2d3748', paddingBottom: '10px' }}
         >
           <h2>Panel de Control</h2>
           <p style={{ color: '#a0aec0' }}>Resumen de operaciones Tecnoglass</p>
         </header>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '20px',
+            marginBottom: '30px',
+          }}
+        >
           <div
             style={{
               background: '#2d3748',
@@ -193,7 +208,14 @@ const Dashboard = () => {
 
         {/* Sección de Inventario */}
         <div style={{ marginTop: '30px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '15px',
+            }}
+          >
             <h3 style={{ color: '#a0aec0' }}>📦 Gestión de Inventario</h3>
             <button
               onClick={() => setFormularioAbierto(!formularioAbierto)}
@@ -365,7 +387,9 @@ const Dashboard = () => {
                   <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>Nombre</th>
                   <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>Cantidad</th>
                   <th style={{ padding: '12px', textAlign: 'left', color: '#a0aec0' }}>Precio</th>
-                  <th style={{ padding: '12px', textAlign: 'center', color: '#a0aec0' }}>Acciones</th>
+                  <th style={{ padding: '12px', textAlign: 'center', color: '#a0aec0' }}>
+                    Acciones
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -377,7 +401,15 @@ const Dashboard = () => {
                     <td style={{ padding: '12px', color: '#cbd5e0' }}>
                       ${parseFloat(producto.precio || 0).toFixed(2)}
                     </td>
-                    <td style={{ padding: '12px', textAlign: 'center', display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                    <td
+                      style={{
+                        padding: '12px',
+                        textAlign: 'center',
+                        display: 'flex',
+                        gap: '8px',
+                        justifyContent: 'center',
+                      }}
+                    >
                       <button
                         onClick={() => handleEditar(producto)}
                         style={{
