@@ -1,32 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react' // Añadido useEffect
 import { Link } from 'react-router-dom'
 import { useApp } from '../i18n/AppContext'
+import axios from 'axios' // Asegúrate de tener axios instalado
 
 const Profile = () => {
   const { theme, language, t, colors } = useApp()
 
-  // Estado para los datos del usuario, inicializado desde localStorage
-  const [user] = useState(() => {
-    const storedData = localStorage.getItem('userData')
-    if (storedData) {
-      const parsedData = JSON.parse(storedData)
-      return {
-        nombre: parsedData.nombre || parsedData.user || parsedData.usuario || 'Usuario Admin',
-        email: parsedData.email || 'admin@datapixel.com',
-        rol: parsedData.rol || 'Administrador de Sistema',
-        ubicacion: 'Colombia, Caribe',
-        estado: 'Activo',
+  // Estado para los datos del usuario
+  const [user, setUser] = useState({
+    nombre: 'Cargando...',
+    rol: 'Consultando...',
+    email: '',
+    ubicacion: 'Colombia, Caribe',
+    estado: 'Activo',
+  })
+
+  // EFECTO PARA CONECTAR CON LA BASE DE DATOS
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Intentamos traer al usuario con ID 1 (el admin que creamos en HeidiSQL)
+        const response = await axios.get('http://localhost:8081/api/usuarios/1')
+
+        if (response.data) {
+          setUser({
+            nombre: response.data.nombre,
+            email: response.data.email,
+            rol: response.data.rol || 'Administrador',
+            ubicacion: response.data.ubicacion || 'Colombia, Caribe',
+            estado: response.data.estado || 'Activo',
+          })
+        }
+      } catch (error) {
+        console.error('Error conectando a la BD, usando localStorage:', error)
+
+        // Si falla la conexión, intentamos usar el localStorage que ya tenías
+        const storedData = localStorage.getItem('userData')
+        if (storedData) {
+          const parsedData = JSON.parse(storedData)
+          setUser({
+            nombre: parsedData.nombre || parsedData.user || parsedData.usuario || 'Usuario Admin',
+            email: parsedData.email || 'admin@datapixel.com',
+            rol: parsedData.rol || 'Administrador de Sistema',
+            ubicacion: 'Colombia, Caribe',
+            estado: 'Activo',
+          })
+        }
       }
     }
 
-    return {
-      nombre: 'Cargando...',
-      rol: 'Desarrollador Full Stack',
-      email: '',
-      ubicacion: 'Colombia, Caribe',
-      estado: 'Activo',
-    }
-  })
+    fetchUserData()
+  }, [])
 
   return (
     <div
@@ -90,7 +114,14 @@ const Profile = () => {
       </div>
 
       {/* Contenido del Perfil */}
-      <div style={{ flex: 1, padding: '40px', textAlign: 'left', transition: 'background-color 0.3s ease, color 0.3s ease' }}>
+      <div
+        style={{
+          flex: 1,
+          padding: '40px',
+          textAlign: 'left',
+          transition: 'background-color 0.3s ease, color 0.3s ease',
+        }}
+      >
         <header
           style={{
             marginBottom: '30px',
@@ -100,7 +131,9 @@ const Profile = () => {
           }}
         >
           <h2 style={{ color: colors.text, transition: 'color 0.3s ease' }}>{t('miPerfil')}</h2>
-          <p style={{ color: colors.textDark, transition: 'color 0.3s ease' }}>{t('informacionPersonal')}</p>
+          <p style={{ color: colors.textDark, transition: 'color 0.3s ease' }}>
+            {t('informacionPersonal')}
+          </p>
         </header>
 
         <div
@@ -145,7 +178,16 @@ const Profile = () => {
             </div>
 
             <div style={{ marginTop: '50px', color: colors.text, transition: 'color 0.3s ease' }}>
-              <h3 style={{ fontSize: '1.8rem', margin: '0', color: colors.text, transition: 'color 0.3s ease' }}>{user.nombre}</h3>
+              <h3
+                style={{
+                  fontSize: '1.8rem',
+                  margin: '0',
+                  color: colors.text,
+                  transition: 'color 0.3s ease',
+                }}
+              >
+                {user.nombre}
+              </h3>
               <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
                 {user.rol}
               </p>

@@ -22,7 +22,7 @@ db.connect((err) => {
   }
 })
 
-// 2. Ruta de Login (Esta es la que llama React)
+//  Ruta de Login (Esta es la que llama React)
 app.post('/login', (req, res) => {
   const { email, password } = req.body
 
@@ -80,6 +80,59 @@ app.get('/api/productos', (req, res) => {
     }
 
     res.json(result)
+  })
+})
+
+// Endpoint para inicializar la tabla de usuarios con datos de prueba
+app.post('/api/inicializar-usuarios', (req, res) => {
+  // Primero crear la tabla si no existe
+  const createTableSQL = `
+    CREATE TABLE IF NOT EXISTS usuarios (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      email VARCHAR(100) NOT NULL UNIQUE,
+      password VARCHAR(100) NOT NULL,
+      rol VARCHAR(50) DEFAULT 'Cliente',
+      fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `
+
+  db.query(createTableSQL, (err) => {
+    if (err) {
+      console.error('Error creando tabla usuarios:', err)
+      return res.status(500).json({ message: 'Error creando tabla usuarios' })
+    }
+
+    // Verificar si la tabla está vacía
+    const checkSQL = 'SELECT COUNT(*) as count FROM usuarios'
+    db.query(checkSQL, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error verificando datos' })
+      }
+
+      if (result[0].count > 0) {
+        return res.json({ message: 'La tabla usuarios ya contiene datos' })
+      }
+
+      // Insertar datos de prueba
+      const insertSQL = `
+        INSERT INTO usuarios (nombre, email, password, rol) VALUES
+        ('Admin User', 'admin@datapixel.com', 'admin123', 'Admin'),
+        ('Juan Pérez', 'juan@example.com', 'password123', 'Cliente'),
+        ('María García', 'maria@example.com', 'password456', 'Vendedor'),
+        ('Carlos López', 'carlos@example.com', 'password789', 'Cliente'),
+        ('Ana Rodríguez', 'ana@example.com', 'passwordabc', 'Vendedor')
+      `
+
+      db.query(insertSQL, (err) => {
+        if (err) {
+          console.error('Error insertando usuarios:', err)
+          return res.status(500).json({ message: 'Error insertando usuarios' })
+        }
+
+        res.json({ message: 'Usuarios inicializados correctamente' })
+      })
+    })
   })
 })
 
