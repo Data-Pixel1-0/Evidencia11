@@ -41,22 +41,27 @@ const Settings = () => {
         transition: 'all 0.3s ease',
       }}
     >
-      {/* Sidebar */}
+      {/* Barra Lateral */}
       <div
+        className="sidebar"
         style={{
           width: '220px',
           background: colors.sidebar,
           padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
           transition: 'all 0.3s ease',
         }}
       >
-        <h3 style={{ color: '#3b82f6', marginBottom: '30px' }}>Data Pixel</h3>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <h3 style={{ color: '#3b82f6', fontSize: '1.2rem', textAlign: 'center' }}>Data Pixel</h3>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'left' }}>
           <Link
             to="/dashboard"
             style={{
               color: colors.text,
               textDecoration: 'none',
+              padding: '10px',
               transition: 'all 0.3s ease',
             }}
           >
@@ -67,17 +72,21 @@ const Settings = () => {
             style={{
               color: colors.text,
               textDecoration: 'none',
+              padding: '10px',
               transition: 'all 0.3s ease',
             }}
           >
             👤 {t('miPerfil')}
           </Link>
+          {/* Configuración (ACTIVO) */}
           <Link
             to="/settings"
             style={{
-              color: '#3b82f6',
+              color: colors.text,
               textDecoration: 'none',
-              fontWeight: 'bold',
+              padding: '10px',
+              background: colors.border,
+              borderRadius: '5px',
               transition: 'all 0.3s ease',
             }}
           >

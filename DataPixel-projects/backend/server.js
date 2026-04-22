@@ -8,10 +8,10 @@ app.use(express.json())
 
 // 1. Configuración de tu base de datos MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root', // Tu usuario de MySQL
-  password: '', // Tu contraseña de MySQL
-  database: 'datapixel-final',
+  host: 'db-datapixel.chcm4o2y0007.us-east-2.rds.amazonaws.com',
+  user: 'admin',
+  password: 'WYa8oz9H7PhtRBKIA6NR',
+  database: 'datapixel_final',
 })
 
 db.connect((err) => {

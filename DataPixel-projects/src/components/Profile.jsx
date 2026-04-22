@@ -32,12 +32,9 @@ const Profile = () => {
     <div
       style={{
         display: 'flex',
-        minHeight: '80vh',
+        minHeight: '100vh',
         background: colors.bg,
-        borderRadius: '12px',
-        overflow: 'hidden',
-        border: `1px solid ${colors.border}`,
-        transition: 'all 0.3s ease',
+        transition: 'background-color 0.3s ease, color 0.3s ease',
       }}
     >
       {/* Sidebar Lateral Original */}
@@ -49,7 +46,7 @@ const Profile = () => {
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
-          transition: 'all 0.3s ease',
+          transition: 'background-color 0.3s ease',
         }}
       >
         <h3 style={{ color: '#3b82f6', fontSize: '1.2rem', textAlign: 'center' }}>Data Pixel</h3>
@@ -60,7 +57,7 @@ const Profile = () => {
               color: colors.text,
               textDecoration: 'none',
               padding: '10px',
-              transition: 'all 0.3s ease',
+              transition: 'color 0.3s ease',
             }}
           >
             🏠 {t('inicio')}
@@ -73,7 +70,7 @@ const Profile = () => {
               padding: '10px',
               background: colors.border,
               borderRadius: '5px',
-              transition: 'all 0.3s ease',
+              transition: 'background-color 0.3s ease, color 0.3s ease',
             }}
           >
             👤 {t('miPerfil')}
@@ -84,7 +81,7 @@ const Profile = () => {
               color: colors.text,
               textDecoration: 'none',
               padding: '10px',
-              transition: 'all 0.3s ease',
+              transition: 'color 0.3s ease',
             }}
           >
             ⚙️ {t('configuracion')}
@@ -93,17 +90,17 @@ const Profile = () => {
       </div>
 
       {/* Contenido del Perfil */}
-      <div style={{ flex: 1, padding: '30px', textAlign: 'left', transition: 'all 0.3s ease' }}>
+      <div style={{ flex: 1, padding: '40px', textAlign: 'left', transition: 'background-color 0.3s ease, color 0.3s ease' }}>
         <header
           style={{
             marginBottom: '30px',
             borderBottom: `1px solid ${colors.border}`,
             paddingBottom: '10px',
-            transition: 'all 0.3s ease',
+            transition: 'border-color 0.3s ease',
           }}
         >
-          <h2 style={{ color: colors.text }}>{t('miPerfil')}</h2>
-          <p style={{ color: colors.textDark }}>{t('informacionPersonal')}</p>
+          <h2 style={{ color: colors.text, transition: 'color 0.3s ease' }}>{t('miPerfil')}</h2>
+          <p style={{ color: colors.textDark, transition: 'color 0.3s ease' }}>{t('informacionPersonal')}</p>
         </header>
 
         <div
@@ -114,7 +111,7 @@ const Profile = () => {
             overflow: 'hidden',
             maxWidth: '600px',
             border: `1px solid ${colors.border}`,
-            transition: 'all 0.3s ease',
+            transition: 'background-color 0.3s ease, border-color 0.3s ease',
           }}
         >
           {/* Banner decorativo */}
@@ -122,6 +119,7 @@ const Profile = () => {
             style={{
               height: '100px',
               background: 'linear-gradient(90deg, #3b82f6, ' + colors.sidebar + ')',
+              transition: 'background 0.3s ease',
             }}
           ></div>
 
@@ -140,14 +138,14 @@ const Profile = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '2.5rem',
-                transition: 'all 0.3s ease',
+                transition: 'background-color 0.3s ease, border-color 0.3s ease',
               }}
             >
               👤
             </div>
 
-            <div style={{ marginTop: '50px', color: colors.text, transition: 'all 0.3s ease' }}>
-              <h3 style={{ fontSize: '1.8rem', margin: '0' }}>{user.nombre}</h3>
+            <div style={{ marginTop: '50px', color: colors.text, transition: 'color 0.3s ease' }}>
+              <h3 style={{ fontSize: '1.8rem', margin: '0', color: colors.text, transition: 'color 0.3s ease' }}>{user.nombre}</h3>
               <p style={{ color: '#3b82f6', fontWeight: 'bold', marginBottom: '20px' }}>
                 {user.rol}
               </p>
@@ -159,16 +157,16 @@ const Profile = () => {
                   background: colors.bg,
                   padding: '15px',
                   borderRadius: '8px',
-                  transition: 'all 0.3s ease',
+                  transition: 'background-color 0.3s ease',
                 }}
               >
-                <p style={{ margin: 0, color: colors.text }}>
+                <p style={{ margin: 0, color: colors.text, transition: 'color 0.3s ease' }}>
                   <strong>Email:</strong> {user.email}
                 </p>
-                <p style={{ margin: 0, color: colors.text }}>
+                <p style={{ margin: 0, color: colors.text, transition: 'color 0.3s ease' }}>
                   <strong>{t('ubicacion')}:</strong> {user.ubicacion}
                 </p>
-                <p style={{ margin: 0, color: colors.text }}>
+                <p style={{ margin: 0, color: colors.text, transition: 'color 0.3s ease' }}>
                   <strong>{t('estado')}:</strong>{' '}
                   <span style={{ color: '#48bb78' }}>● {user.estado}</span>
                 </p>

@@ -57,20 +57,17 @@ const Dashboard = () => {
 
     try {
       if (editando) {
-        // Actualizar producto
         await axios.put(`${API_URL}/${editando.id}`, formData)
         setProductos((prev) =>
           prev.map((p) => (p.id === editando.id ? { ...editando, ...formData } : p))
         )
         alert('Producto actualizado correctamente')
       } else {
-        // Crear nuevo producto
         const response = await axios.post(API_URL, formData)
         setProductos((prev) => [...prev, response.data])
         alert('Producto creado correctamente')
       }
 
-      // Limpiar formulario
       setFormData({ nombre: '', cantidad: '', precio: '', descripcion: '' })
       setFormularioAbierto(false)
       setEditando(null)
@@ -79,7 +76,6 @@ const Dashboard = () => {
     }
   }
 
-  // Abrir formulario de edición
   const handleEditar = (producto) => {
     setEditando(producto)
     setFormData({
@@ -91,7 +87,6 @@ const Dashboard = () => {
     setFormularioAbierto(true)
   }
 
-  // Eliminar producto
   const handleEliminar = async (id) => {
     if (!window.confirm('¿Estás seguro de que quieres eliminar este producto?')) {
       return
@@ -106,7 +101,6 @@ const Dashboard = () => {
     }
   }
 
-  // Cancelar edición
   const handleCancelar = () => {
     setFormularioAbierto(false)
     setEditando(null)
@@ -191,53 +185,8 @@ const Dashboard = () => {
           transition: 'all 0.3s ease',
         }}
       >
-        <header
-          style={{
-            marginBottom: '30px',
-            borderBottom: `1px solid ${colors.border}`,
-            paddingBottom: '10px',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h2 style={{ color: colors.text }}>{t('panelControl')}</h2>
-          <p style={{ color: colors.textDark }}>{t('resumen')}</p>
-        </header>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '20px',
-            marginBottom: '30px',
-          }}
-        >
-          <div
-            style={{
-              background: colors.card,
-              padding: '20px',
-              borderRadius: '10px',
-              borderLeft: '4px solid #3b82f6',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            <span style={{ color: colors.text }}>{t('proyectos')}</span>
-            <h3 style={{ fontSize: '2rem', color: colors.text }}>08</h3>
-          </div>
-          <div
-            style={{
-              background: colors.card,
-              padding: '20px',
-              borderRadius: '10px',
-              borderLeft: '4px solid #48bb78',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            <span style={{ color: colors.text }}>{t('usuarios')}</span>
-            <h3 style={{ fontSize: '2rem', color: colors.text }}>24</h3>
-          </div>
-        </div>
-
-        {/* Sección de Inventario */}
-        <div style={{ marginTop: '30px' }}>
+        {/* Sección de Inventario - Subida automáticamente al quitar las tarjetas */}
+        <div style={{ marginTop: '10px' }}>
           <div
             style={{
               display: 'flex',
