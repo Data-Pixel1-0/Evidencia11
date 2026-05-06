@@ -215,10 +215,7 @@ const Dashboard = () => {
     setCart((prev) => prev.filter((item) => item.id !== id))
   }
 
-  const cartTotal = cart.reduce(
-    (total, item) => total + item.precio * item.cantidadSolicitada,
-    0
-  )
+  const cartTotal = cart.reduce((total, item) => total + item.precio * item.cantidadSolicitada, 0)
 
   const handleCheckout = async () => {
     if (cart.length === 0) {
@@ -325,9 +322,7 @@ const Dashboard = () => {
         }}
       >
         <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ color: colors.text, marginBottom: '10px' }}>
-            Hola, {user.nombre}
-          </h2>
+          <h2 style={{ color: colors.text, marginBottom: '10px' }}>Hola, {user.nombre}</h2>
           <p style={{ color: colors.textDark }}>
             {isAdmin
               ? 'Estás en el panel de administrador. Aquí puedes gestionar inventario, editar precios y ver el estado de los productos.'
@@ -377,7 +372,9 @@ const Dashboard = () => {
               >
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                   <div>
-                    <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    <label
+                      style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}
+                    >
                       Nombre *
                     </label>
                     <input
@@ -399,7 +396,9 @@ const Dashboard = () => {
                     />
                   </div>
                   <div>
-                    <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    <label
+                      style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}
+                    >
                       Cantidad *
                     </label>
                     <input
@@ -421,7 +420,9 @@ const Dashboard = () => {
                     />
                   </div>
                   <div>
-                    <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    <label
+                      style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}
+                    >
                       Precio
                     </label>
                     <input
@@ -444,7 +445,9 @@ const Dashboard = () => {
                     />
                   </div>
                   <div>
-                    <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                    <label
+                      style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}
+                    >
                       Descripción
                     </label>
                     <input
@@ -526,11 +529,21 @@ const Dashboard = () => {
                       transition: 'all 0.3s ease',
                     }}
                   >
-                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>ID</th>
-                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>Nombre</th>
-                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>Cantidad</th>
-                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>Precio</th>
-                    <th style={{ padding: '12px', textAlign: 'center', color: colors.textDark }}>Acciones</th>
+                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                      ID
+                    </th>
+                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                      Nombre
+                    </th>
+                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                      Cantidad
+                    </th>
+                    <th style={{ padding: '12px', textAlign: 'left', color: colors.textDark }}>
+                      Precio
+                    </th>
+                    <th style={{ padding: '12px', textAlign: 'center', color: colors.textDark }}>
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -634,7 +647,9 @@ const Dashboard = () => {
                   </span>
                 </div>
 
-                {loadingInventario && <p style={{ color: colors.textDark }}>Cargando productos...</p>}
+                {loadingInventario && (
+                  <p style={{ color: colors.textDark }}>Cargando productos...</p>
+                )}
                 {errorInventario && <p style={{ color: '#fc8181' }}>{errorInventario}</p>}
 
                 <div
@@ -727,13 +742,23 @@ const Dashboard = () => {
                             Eliminar
                           </button>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
+                        <div
+                          style={{ display: 'flex', justifyContent: 'space-between', gap: '12px' }}
+                        >
                           <div>
                             <p style={{ margin: 0, color: colors.textDark }}>Precio unitario:</p>
-                            <p style={{ margin: 0, color: colors.text }}>${item.precio.toFixed(2)}</p>
+                            <p style={{ margin: 0, color: colors.text }}>
+                              ${item.precio.toFixed(2)}
+                            </p>
                           </div>
                           <div>
-                            <label style={{ color: colors.textDark, display: 'block', marginBottom: '5px' }}>
+                            <label
+                              style={{
+                                color: colors.textDark,
+                                display: 'block',
+                                marginBottom: '5px',
+                              }}
+                            >
                               Cantidad
                             </label>
                             <input
@@ -754,7 +779,7 @@ const Dashboard = () => {
                           </div>
                         </div>
                         <p style={{ margin: 0, color: colors.textDark }}>
-                          Subtotal: ${ (item.precio * item.cantidadSolicitada).toFixed(2) }
+                          Subtotal: ${(item.precio * item.cantidadSolicitada).toFixed(2)}
                         </p>
                       </div>
                     ))}

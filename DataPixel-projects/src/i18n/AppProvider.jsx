@@ -1,7 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import translations from './translations'
-
-export const AppContext = createContext()
+import { AppContext } from './AppContext'
 
 export function AppProvider({ children }) {
   const [theme, setTheme] = useState(() => {
@@ -14,7 +13,6 @@ export function AppProvider({ children }) {
     return saved || 'es'
   })
 
-  // Aplicar tema al DOM
   useEffect(() => {
     const root = document.documentElement
     if (theme === 'light') {
@@ -27,14 +25,11 @@ export function AppProvider({ children }) {
     localStorage.setItem('appTheme', theme)
   }, [theme])
 
-  // Guardar idioma
   useEffect(() => {
     localStorage.setItem('appLanguage', language)
   }, [language])
 
-  const t = (key) => {
-    return translations[language]?.[key] || translations.es[key] || key
-  }
+  const t = (key) => translations[language]?.[key] || translations.es[key] || key
 
   const themeColors = {
     dark: {

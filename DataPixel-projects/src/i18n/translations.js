@@ -35,7 +35,7 @@ const translations = {
     nuevoProducto: 'Nuevo Producto',
     cerrar: 'Cerrar',
     id: 'ID',
-    nombre: 'Nombre',
+    productoNombre: 'Nombre',
     cantidad: 'Cantidad',
     precio: 'Precio',
     descripcion: 'Descripción',
@@ -51,7 +51,7 @@ const translations = {
     // Profile
     usuarioAdmin: 'Usuario Admin',
     ubicacion: 'Ubicación',
-    estado: 'Estado',
+    estadoUsuario: 'Estado',
     estadoActivo: 'Activo',
     informacionPersonal: 'Información Personal',
 
@@ -120,7 +120,7 @@ const translations = {
     nuevoProducto: 'New Product',
     cerrar: 'Close',
     id: 'ID',
-    nombre: 'Name',
+    productoNombre: 'Name',
     cantidad: 'Quantity',
     precio: 'Price',
     descripcion: 'Description',
@@ -136,7 +136,7 @@ const translations = {
     // Profile
     usuarioAdmin: 'Admin User',
     ubicacion: 'Location',
-    estado: 'Status',
+    estadoUsuario: 'Status',
     estadoActivo: 'Active',
     informacionPersonal: 'Personal Information',
 
@@ -205,7 +205,7 @@ const translations = {
     nuevoProducto: 'Novo Produto',
     cerrar: 'Fechar',
     id: 'ID',
-    nombre: 'Nome',
+    productoNombre: 'Nome',
     cantidad: 'Quantidade',
     precio: 'Preço',
     descripcion: 'Descrição',
@@ -221,7 +221,7 @@ const translations = {
     // Profile
     usuarioAdmin: 'Usuário Admin',
     ubicacion: 'Localização',
-    estado: 'Status',
+    estadoUsuario: 'Status',
     estadoActivo: 'Ativo',
     informacionPersonal: 'Informação Pessoal',
 
@@ -290,7 +290,7 @@ const translations = {
     nuevoProducto: 'Nouveau Produit',
     cerrar: 'Fermer',
     id: 'ID',
-    nombre: 'Nom',
+    productoNombre: 'Nom',
     cantidad: 'Quantité',
     precio: 'Prix',
     descripcion: 'Description',
@@ -306,7 +306,7 @@ const translations = {
     // Profile
     usuarioAdmin: 'Utilisateur Admin',
     ubicacion: 'Localisation',
-    estado: 'Statut',
+    estadoUsuario: 'Statut',
     estadoActivo: 'Actif',
     informacionPersonal: 'Informations Personnelles',
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
-import { AppProvider } from './i18n/AppContext'
+import { AppProvider } from './i18n/AppProvider'
 import LoginForm from './components/LoginForm'
 import RegistroForm from './components/RegistroForm'
 import Dashboard from './components/Dashboard'

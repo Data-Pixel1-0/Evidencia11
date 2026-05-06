@@ -4,7 +4,7 @@ import { useApp } from '../i18n/AppContext'
 import axios from 'axios' // Asegúrate de tener axios instalado
 
 const Profile = () => {
-  const { theme, language, t, colors } = useApp()
+  const { t, colors } = useApp()
 
   // Estado para los datos del usuario
   const [user, setUser] = useState({
@@ -209,7 +209,7 @@ const Profile = () => {
                   <strong>{t('ubicacion')}:</strong> {user.ubicacion}
                 </p>
                 <p style={{ margin: 0, color: colors.text, transition: 'color 0.3s ease' }}>
-                  <strong>{t('estado')}:</strong>{' '}
+                  <strong>{t('estadoUsuario')}:</strong>{' '}
                   <span style={{ color: '#48bb78' }}>● {user.estado}</span>
                 </p>
               </div>
