@@ -30,7 +30,7 @@ const LoginForm = () => {
       const userData = response.data
       localStorage.setItem('userData', JSON.stringify(userData))
       setSuccess('Login exitoso')
-      navigate('/profile')
+      navigate('/dashboard')
     } catch (err) {
       const message = err.response?.data?.message || 'Error al iniciar sesión'
       setError(message)
